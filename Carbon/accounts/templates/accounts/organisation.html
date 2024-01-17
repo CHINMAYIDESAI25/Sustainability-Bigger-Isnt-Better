@@ -1,0 +1,289 @@
+
+{% include 'accounts/navbar.html' %}
+{% block content %}
+    {% endblock %}
+
+<style>
+	
+
+#announcement-panel {
+	padding-top: 80px;
+	padding-bottom: 80px;
+}
+
+#announcement-header, #announcement-subheader {
+	color: white;
+	background-color: rgba(38, 77, 0, 0.7);
+	padding: 5px;
+}
+
+#announcement-header {
+	font-size: 4em;
+}
+
+#announcement-subheader {
+	font-size: 2em;
+}
+
+#form, #results {
+	padding: 40px;
+}
+
+#announcement-panel {
+	background-image: url("../images/green-leaves.jpg");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+#home-energy-label, .fa-home {
+	color: #FF8C00;
+}
+
+#travel-label, .fa-globe {
+	color: #008B8B;
+}
+
+#waste-label, .fa-recycle {
+	color: #228B22;
+}
+
+.progress-bar {
+	font-size: 1.2em;
+}
+
+.score-info {
+	padding: 10px;
+	margin: 0;
+}
+</style>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" href="images/favicon.ico">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+<body>
+	<div class="container-fluid">
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+				<div id="form">
+					<form>
+						<h3 id="home-energy-label"><i class="fa fa-globe" aria-hidden="true"></i> Organisation details</h3>	
+                        <div class="form-group">
+							<label for="car">Enter your 1 month Total Distance Travelled</label>
+							<div class="input-group">
+								<input class="form-control" id="car" type="number" min="0" step="0.01">
+                                <div class="input-group-addon">km</div>
+							</div>
+							<span class="help-block">Enter 0 if not applicable. If left blank, will default to 0.</span>
+						</div>
+                        
+						<div class="form-group">
+							<label for="electric">Enter your 1 month Electricity Consumption</label>
+							<div class="input-group">
+								<input class="form-control" id="electric" type="number" min="0" step="0.01">
+                                <div class="input-group-addon">kWh</div>
+                            </div>
+							<span class="help-block">Enter 0 if not applicable. If left blank, will default to 0.</span>
+						</div>
+                        
+						<div class="form-group">
+							<label for="fuel">Enter your 1 month Fuel Consumption</label>
+							<div class="input-group">
+								<input class="form-control" id="fuel" type="number" min="0" step="0.01">
+								<div class="input-group-addon">litres</div>
+							</div>
+							<span class="help-block">Enter 0 if not applicable. If left blank, will default to 0.</span>
+					   </div>
+					   
+
+						<h3 class="form-section-label" id="waste-label"><i class="fa fa-recycle" aria-hidden="true"></i> Waste</h3>
+						<div class="form-group">
+							<label>Does your organisation recycle paper?</label>
+							<div class="alert alert-danger" role="alert" id="newspaper-alert"><strong>Oops!</strong> You need to make a selection.</div>
+							<div class="radio">
+								<label>
+									<input type="radio" name="newspaperOptionsRadios" id="optionsRadio1" value="option1">
+									Yes
+								</label>
+							</div>
+							<div class="radio">
+								<label>
+									<input type="radio" name="newspaperOptionsRadios" id="optionsRadio2" value="option2">
+									No
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Does your organisation take measures to reduce GHGs?</label>
+							<div class="alert alert-danger" role="alert" id="ghg-alert"><strong>Oops!</strong> You need to make a selection.</div>
+							<div class="radio">
+								<label>
+									<input type="radio" name="ghgOptionsRadios" id="optionsRadio3" value="option3">
+									Yes
+								</label>
+							</div>
+							<div class="radio">
+								<label>
+									<input type="radio" name="ghgOptionsRadios" id="optionsRadio4" value="option4">
+									No
+								</label>
+							</div>
+						</div>
+						<br/>
+					<button id="calculate-btn" type="button" class="btn btn-success btn-lg btn-block">Calculate</button>
+					</form>
+				</div>
+
+				<div id="results" class="text-center">
+					<h1 id="score"></h1>
+					<br/>
+					<p class="lead">This number represents the amount of greenhouse gases in units of carbon dioxide you emit per year</p>
+					<br/>
+					<h5 class="bg-success score-info">6,000 or below is EXCELLENT</h5>
+					<h5 class="bg-info score-info">6,000 to 15,999 is GOOD</h5>
+					<h5 class="bg-warning score-info">16,000 to 22,000 is AVERAGE</h5>
+					<h5 class="bg-danger score-info">22,000 or above is BAD</h5>
+					<br/>
+					<br/>
+					<br/>
+					<button id="recalculate-btn" type="button" class="btn btn-success btn-lg btn-block"><a href="{% url 'organisationreduces' %}">Learn ways to reduce</button></a></button>
+				</div>
+			</div>	
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+			</div>	
+		</div>
+	</div>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="js/script.js" type="text/javascript"></script>
+</body>
+</html>
+
+<script>
+	//line
+console.log("Organisation.js is connected")
+
+$(document).ready(function() {
+	// hide results template and error alerts on initial page load
+	$("#results").hide();
+	$(".alert").hide();
+
+	// prevent ability to type negative numbers or spaces in input fields
+	$("[type='number']").bind("keydown", function(e) {
+		var code = e.keyCode || e.which;
+
+		if (code == 189 || code == 173 || code == 32 || code == 69 || code == 109) {
+			return false;
+		}
+	});
+
+	$("#calculate-btn").on("click", function() {
+		var calculateAndDisplayScore = function() {
+			window.scrollTo(0, 400);
+			// hide form template if all inputs are completed
+			$("#form").hide();
+
+			// get input values
+			var electricInput = document.getElementById("electric").value;
+			var fuelInput = document.getElementById("fuel").value;
+			var carInput = document.getElementById("car").value;
+			
+			// set variables for calculating each component score
+			var electricScore = "";
+			var fuelScore = "";
+			var carScore = "";
+			var newspaperScore = "";
+			var ghgScore = "";
+
+			var totalScore = "";
+
+			if (document.getElementById("optionsRadio1").checked) {
+				newspaperScore = 0;
+			} else {
+				newspaperScore = 184;
+			}
+			// console.log("Newspaper score is: " + newspaperScore);
+
+			if (document.getElementById("optionsRadio3").checked) {
+				ghgScore = 0;
+			} else {
+				ghgScore = 60;
+			}
+			// console.log("Aluminum and tin score is: " + ghgScore);
+
+			if (electricInput === 0 || electricInput === "undefined") {
+				electricScore = 0;
+			} else {
+				electricScore = electricInput * 0.82;
+			}
+			// console.log("Electric score is: " + electricScore);
+
+			if (fuelInput === 0 || fuelInput === "undefined") {
+				fuelScore = 0;
+			} else {
+				fuelScore = fuelInput * 2.68;
+			}
+			// console.log("fuel score is: " + fuel);
+
+			if (carInput === 0 || carInput === "undefined") {
+				carScore = 0;
+			} else {
+				carScore = carInput * 0.18;
+			}
+			// console.log("Car score is: " + carScore);
+
+			// calculate scores for each category
+			var orgScore = electricScore + fuelScore + carScore	 ;
+			var wasteScore = newspaperScore + ghgScore;
+
+			// calculate total score and round to nearest whole integer
+			totalScore = Math.round(orgScore + wasteScore);
+			var formattedScore = totalScore.toLocaleString("en");
+			// console.log(totalScore);
+
+			document.getElementById("score").innerHTML = formattedScore;
+
+			// display results
+			$("#results").show();
+
+			
+			
+		}
+
+		// check selection made for recycling newspaper before calculating and displaying score
+		var recycleNewspaperSelectionYes = document.getElementById("optionsRadio1").checked;
+		var recycleNewspaperSelectionNo = document.getElementById("optionsRadio2").checked;
+		var recycleghgSelectionYes = document.getElementById("optionsRadio3").checked;
+		var recycleghgSelectionNo = document.getElementById("optionsRadio4").checked;
+
+		if (recycleNewspaperSelectionYes == false && recycleNewspaperSelectionNo == false || recycleghgSelectionYes == false && recycleghgSelectionNo == false) {
+			if (recycleNewspaperSelectionYes == false && recycleNewspaperSelectionNo == false) {
+				$("#newspaper-alert").show();
+			} else {
+				$("#newspaper-alert").hide();
+			}
+
+			if (recycleghgSelectionYes == false && recycleghgSelectionNo == false) {
+				$("#ghg-alert").show();
+			} else {
+				$("#ghg-alert").hide();
+			}
+		} else {
+			calculateAndDisplayScore();
+		}
+	});	
+});
+</script>
